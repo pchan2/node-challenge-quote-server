@@ -1,3 +1,4 @@
+// https://syllabus.codeyourfuture.io/node/week-1/lesson
 // server.js
 // This is where your node app starts
 
@@ -17,7 +18,19 @@ app.get("/", function (request, response) {
 });
 
 //START OF YOUR CODE...
+app.get("/quotes", function (request, response) {
+  response.send(quotes);
+});
 
+// https://www.freecodecamp.org/news/creating-a-bare-bones-quote-generator-with-javascript-and-html-for-absolute-beginners-5264e1725f08/
+// randomNumber will always generate a valid array index number for our quotes array
+// function newQuote() {
+//   const randomNumber = Math.floor(Math.random() * (quotes.length));
+// }
+
+app.get("/quotes/random", function (request, response) {
+  response.send(JSON.stringify(pickFromArray(quotes)));
+});
 //...END OF YOUR CODE
 
 //You can use this function to pick one element at random from a given array
