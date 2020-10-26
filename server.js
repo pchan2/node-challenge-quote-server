@@ -22,15 +22,39 @@ app.get("/quotes", function (request, response) {
   response.send(quotes);
 });
 
-// https://www.freecodecamp.org/news/creating-a-bare-bones-quote-generator-with-javascript-and-html-for-absolute-beginners-5264e1725f08/
-// randomNumber will always generate a valid array index number for our quotes array
-// function newQuote() {
-//   const randomNumber = Math.floor(Math.random() * (quotes.length));
-// }
 
 app.get("/quotes/random", function (request, response) {
-  response.send(JSON.stringify(pickFromArray(quotes)));
+  response.send(pickFromArray(quotes));
 });
+
+// search by a term
+
+app.get("/quotes/search", function (request, response) {
+  let termQuery = request.query.term;
+  let quotesFound = quotes.filter(item => item.quote.toLowerCase().includes(termQuery));
+  response.json(quotesFound);
+})
+
+// app.get("/quotes/search", function (req, res) {
+//   let {term} = req.query;
+//   const quotesFound = quotes.find(quote => quote.includes(term));
+//   res.json(quotesFound);
+// });
+
+// ********** example with Rody starts **********
+const quotes1 = {a: "hehehe", b: "ooooh", c: "aaah"}
+
+app.get("/quotes/search", function (request, response) {
+
+  const queryParams = request.query; // this represents the part that comes after the "?""
+  const requestedQuote = queryParams.quote;
+  const quote = quotes1[requestedQuote];
+  // let life = request.query.search.includes("life");
+  console.log(requestedQuote);
+  response.send(quotes);
+});
+
+// ********** example with Rody ends **********
 //...END OF YOUR CODE
 
 //You can use this function to pick one element at random from a given array
@@ -42,6 +66,6 @@ function pickFromArray(arr) {
 }
 
 //Start our server so that it listens for HTTP requests!
-const listener = app.listen(process.env.PORT, function () {
+const listener = app.listen(3001, function () {
   console.log("Your app is listening on port " + listener.address().port);
 });
